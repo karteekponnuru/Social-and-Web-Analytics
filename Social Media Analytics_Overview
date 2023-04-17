@@ -1,0 +1,68 @@
+import random
+
+mock_data = [
+    {
+        "user_id": f"user{random.randint(1, 1000)}",
+        "age": random.randint(18, 65),
+        "gender": random.choice(["male", "female"]),
+        "location": random.choice(["USA", "UK", "Germany", "Australia"]),
+        "interests": random.sample(["technology", "fashion", "sports", "travel", "food"], 3),
+        "post": {
+            "text": "I love my new shoes from Acme E-Commerce!",
+            "sentiment": "positive",
+            "likes": random.randint(10, 100),
+            "shares": random.randint(1, 50),
+            "comments": random.randint(1, 30),
+        },
+    }
+    for _ in range(100)
+]
+
+#Audience Analytics 
+
+from collections import defaultdict
+
+def audience_analysis(data):
+    demographics = defaultdict(int)
+    interests = defaultdict(int)
+
+    for entry in data:
+        demographics[entry["gender"]] += 1
+        demographics[entry["location"]] += 1
+        for interest in entry["interests"]:
+            interests[interest] += 1
+
+    return demographics, interests
+
+demographics, interests = audience_analysis(mock_data)
+print("Demographics:", demographics)
+print("Interests:", interests)
+
+#Sentiment Analysis
+def sentiment_analysis(data):
+    sentiment_count = defaultdict(int)
+
+    for entry in data:
+        sentiment_count[entry["post"]["sentiment"]] += 1
+
+    return sentiment_count
+
+sentiments = sentiment_analysis(mock_data)
+print("Sentiments:", sentiments)
+
+#Engagement Metrics
+def engagement_metrics(data):
+    total_likes, total_shares, total_comments = 0, 0, 0
+
+    for entry in data:
+        total_likes += entry["post"]["likes"]
+        total_shares += entry["post"]["shares"]
+        total_comments += entry["post"]["comments"]
+
+    return total_likes, total_shares, total_comments
+
+total_likes, total_shares, total_comments = engagement_metrics(mock_data)
+print("Total likes:", total_likes)
+print("Total shares:", total_shares)
+print("Total comments:", total_comments)
+
