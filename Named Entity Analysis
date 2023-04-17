@@ -1,0 +1,30 @@
+pip install nltk
+import nltk
+
+nltk.download("averaged_perceptron_tagger")
+nltk.download("maxent_ne_chunker")
+nltk.download("words")
+import nltk
+
+# Mock data
+text = """Apple Inc. is an American multinational technology company headquartered in Cupertino, California.
+It was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne in April 1976.
+The company designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories.
+In 2020, Apple became the first U.S. company to reach a market value of $2 trillion."""
+
+# Tokenize the text into sentences and words
+sentences = nltk.sent_tokenize(text)
+tokenized_sentences = [nltk.word_tokenize(sentence) for sentence in sentences]
+
+# Part-of-speech tagging
+tagged_sentences = [nltk.pos_tag(sentence) for sentence in tokenized_sentences]
+
+# Named Entity Recognition using nltk's NE chunker
+ner_chunks = [nltk.ne_chunk(tagged_sentence) for tagged_sentence in tagged_sentences]
+
+# Extract and display named entities
+for chunk in ner_chunks:
+    for subtree in chunk.subtrees():
+        if subtree.label() == "PERSON" or subtree.label() == "ORGANIZATION" or subtree.label() == "GPE":
+            named_entity = " ".join([leaf[0] for leaf in subtree.leaves()])
+            print(f"Entity: {named_entity}\nLabel: {subtree.label()}\n")
