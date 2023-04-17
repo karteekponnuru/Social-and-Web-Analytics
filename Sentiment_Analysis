@@ -1,0 +1,40 @@
+import nltk
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+import nltk
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
+from textblob import TextBlob
+
+# Mock data
+reviews = [
+    "I love this product! It's amazing.",
+    "Worst purchase I've ever made.",
+    "The product is decent, but the customer service is terrible.",
+    "The shipping was fast, and the item is great.",
+    "I'm not impressed with the quality of the product."
+]
+
+# Sentiment analysis
+for review in reviews:
+    sentiment = TextBlob(review).sentiment
+    print(f"Review: {review}\nSentiment: {sentiment}\n")
+
+# Text classification (using naive Bayes classifier)
+from textblob.classifiers import NaiveBayesClassifier
+
+training_data = [
+    ('The product quality is great.', 'positive'),
+    ('I love the customer service.', 'positive'),
+    ('The shipping was fast.', 'positive'),
+    ('I am not happy with the product.', 'negative'),
+    ('The item arrived damaged.', 'negative'),
+    ('Terrible customer support.', 'negative')
+]
+
+classifier = NaiveBayesClassifier(training_data)
+
+for review in reviews:
+    classification = classifier.classify(review)
+    print(f"Review: {review}\nClassification: {classification}\n")
